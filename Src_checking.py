@@ -34,12 +34,9 @@ if __name__ == '__main__':
     # print('test_rl: dout',dout_rl)
     # dout_li = test_linear(dout_rl)
     # print('test_li: dout',dout_li)
-    a=[0.815,0.9,0.91,0.92]
-    b=[0.85,0.75,0.6,0.5]
-    x=[10,20,30,40]
-    plt.plot(x,a,'r--',label='test')
-    plt.plot(x,b,'g--',label='train')
-    plt.xlabel('epoch')
-    plt.ylabel('accuracy')
+    a=[1,8,7,9,1,9,5]
+    b=[6,3,1,8,2,3,6]
+    plt.scatter(a,b)
+    plt.plot()
     plt.show()
 
