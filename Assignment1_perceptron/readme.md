@@ -20,7 +20,7 @@ perceptron_training(X_train:ndarray,y_train:ndarray,X_test:ndarray,y_test:ndarra
 # input 'batch' or 'sgd' to choose between batch gradient descent or stochastic gradient descent.
 x, test_acc, train_acc = tmn.main('batch')
 ```
-### 3. To draw the accuracy curve, use matplotlib.plot like this
+### 3. To draw the accuracy curve, use matplotlib.pyplot like this
 ```
 import train_mlp_numpy as tmn
 import matplotlib.pyplot as plt
@@ -32,3 +32,4 @@ plt.xlabel('epoch')
 plt.ylabel('accuracy')
 plt.show()
 ```
+
