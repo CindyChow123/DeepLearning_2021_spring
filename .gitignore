@@ -1,9 +1,12 @@
 Src_checking.py
 *.pdf
+.idea
 11812031_assignment1.zip
-MRI_classification/For_Student
+MRI_classification
 Assignment_2_CNN&RNN/Part 1/mlp_numpy.py
 Assignment_2_CNN&RNN/Part 1/modules.py
 Assignment_2_CNN&RNN/Part 1/train_mlp_numpy.py
 Assignment_2_CNN&RNN/Part 1/pytorch_train_mlp0.py
 Assignment_2_CNN&RNN/data
+project/dataloaders/*.npy
+project/run

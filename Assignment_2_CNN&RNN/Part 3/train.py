@@ -78,5 +78,5 @@ if __name__ == "__main__":
 
     config = parser.parse_args()
     # Train the model
-    # train(config)
+    train(config)
     print(type(config))
