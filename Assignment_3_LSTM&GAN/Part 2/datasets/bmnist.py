@@ -32,7 +32,7 @@ class BMNIST(data.Dataset):
         if split not in ('train', 'val', 'test'):
             raise ValueError('split should be one of {train, val, test}')
 
-        if download:
+        if download and not self._check_exists():
             self.download()
 
         if not self._check_exists():
@@ -147,3 +147,9 @@ def bmnist(root='./data/', batch_size=128, download=True):
                                              shuffle=False, num_workers=10)
 
     return trainloader, valloader, testloader
+
+if __name__ == '__main__':
+    trainloader, valloader, testloader = bmnist(download=False)
+    for step,batch_inputs in enumerate(trainloader):
+        print(step)
+        print(batch_inputs.shape)

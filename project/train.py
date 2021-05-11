@@ -12,6 +12,8 @@ from torch.utils.data import DataLoader
 from Model.SELayer import se_inception_v3, SEInception3
 from Saver.saver import Saver
 from dataloaders.MRI_dataset import MRI_dataset
+from Model.ResidualAttention.residual_attention_network import ResidualAttentionModel_92_32input_update as ResidualAttentionModel
+
 
 
 class Trainer(object):
@@ -26,7 +28,10 @@ class Trainer(object):
         self.train_loader = DataLoader(MRI_dataset(), batch_size=args.batch_size, shuffle=True, drop_last=True)
 
         # Define network
-        model = SEInception3(2, aux_logits=False)
+        if args.model == 'res':
+            model = ResidualAttentionModel()
+        else:
+            model = SEInception3(2, aux_logits=False)
 
         optimizer = torch.optim.SGD([{"params":model.parameters(),"initial_lr":args.lr}], lr=args.lr, momentum=args.momentum,
                                     weight_decay=args.weight_decay)
@@ -99,7 +104,7 @@ class Trainer(object):
 def main():
     parser = argparse.ArgumentParser(description="PyTorch MRI Training")
     parser.add_argument('--model', type=str, default='vgg16',
-                        choices=['vgg16'],
+                        choices=['vgg16','res'],
                         help='model use')
     parser.add_argument('--loss-type', type=str, default='ce',
                         choices=['ce', 'focal'],

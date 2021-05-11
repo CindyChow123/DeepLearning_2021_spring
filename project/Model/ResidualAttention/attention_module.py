@@ -370,7 +370,7 @@ class AttentionModule_stage3(nn.Module):
 
 class AttentionModule_stage1_cifar(nn.Module):
     # input size is 16*16
-    def __init__(self, in_channels, out_channels, size1=(16, 16), size2=(8, 8)):
+    def __init__(self, in_channels, out_channels, size1=(16, 16, 16), size2=(8, 8, 8)):
         super(AttentionModule_stage1_cifar, self).__init__()
         self.first_residual_blocks = ResidualBlock(in_channels, out_channels)
 
@@ -379,32 +379,32 @@ class AttentionModule_stage1_cifar(nn.Module):
             ResidualBlock(in_channels, out_channels)
          )
 
-        self.mpool1 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # 8*8
+        self.mpool1 = nn.MaxPool3d(kernel_size=3, stride=2, padding=1)  # 8*8
 
         self.down_residual_blocks1 = ResidualBlock(in_channels, out_channels)
 
         self.skip1_connection_residual_block = ResidualBlock(in_channels, out_channels)
 
-        self.mpool2 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # 4*4
+        self.mpool2 = nn.MaxPool3d(kernel_size=3, stride=2, padding=1)  # 4*4
 
         self.middle_2r_blocks = nn.Sequential(
             ResidualBlock(in_channels, out_channels),
             ResidualBlock(in_channels, out_channels)
         )
 
-        self.interpolation1 = nn.UpsamplingBilinear2d(size=size2)  # 8*8
+        self.interpolation1 = nn.Upsample(size=size2,mode='bilinear')  # 8*8
 
         self.up_residual_blocks1 = ResidualBlock(in_channels, out_channels)
 
-        self.interpolation2 = nn.UpsamplingBilinear2d(size=size1)  # 16*16
+        self.interpolation2 = nn.Upsample(size=size1,mode='bilinear')  # 16*16
 
         self.conv1_1_blocks = nn.Sequential(
-            nn.BatchNorm2d(out_channels),
+            nn.BatchNorm3d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias=False),
-            nn.BatchNorm2d(out_channels),
+            nn.Conv3d(out_channels, out_channels, kernel_size=1, stride=1, bias=False),
+            nn.BatchNorm3d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias = False),
+            nn.Conv3d(out_channels, out_channels, kernel_size=1, stride=1, bias = False),
             nn.Sigmoid()
         )
 
@@ -434,7 +434,7 @@ class AttentionModule_stage1_cifar(nn.Module):
 
 class AttentionModule_stage2_cifar(nn.Module):
     # input size is 8*8
-    def __init__(self, in_channels, out_channels, size=(8, 8)):
+    def __init__(self, in_channels, out_channels, size=(8, 8, 8)):
         super(AttentionModule_stage2_cifar, self).__init__()
         self.first_residual_blocks = ResidualBlock(in_channels, out_channels)
 
@@ -443,22 +443,22 @@ class AttentionModule_stage2_cifar(nn.Module):
             ResidualBlock(in_channels, out_channels)
          )
 
-        self.mpool1 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # 4*4
+        self.mpool1 = nn.MaxPool3d(kernel_size=3, stride=2, padding=1)  # 4*4
 
         self.middle_2r_blocks = nn.Sequential(
             ResidualBlock(in_channels, out_channels),
             ResidualBlock(in_channels, out_channels)
         )
 
-        self.interpolation1 = nn.UpsamplingBilinear2d(size=size)  # 8*8
+        self.interpolation1 = nn.Upsample(size=size,mode='bilinear')  # 8*8
 
         self.conv1_1_blocks = nn.Sequential(
-            nn.BatchNorm2d(out_channels),
+            nn.BatchNorm3d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias=False),
-            nn.BatchNorm2d(out_channels),
+            nn.Conv3d(out_channels, out_channels, kernel_size=1, stride=1, bias=False),
+            nn.BatchNorm3d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias = False),
+            nn.Conv3d(out_channels, out_channels, kernel_size=1, stride=1, bias = False),
             nn.Sigmoid()
         )
 
@@ -490,31 +490,3 @@ class AttentionModule_stage3_cifar(nn.Module):
             ResidualBlock(in_channels, out_channels),
             ResidualBlock(in_channels, out_channels)
          )
-
-        self.middle_2r_blocks = nn.Sequential(
-            ResidualBlock(in_channels, out_channels),
-            ResidualBlock(in_channels, out_channels)
-        )
-
-        self.conv1_1_blocks = nn.Sequential(
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias=False),
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, stride=1, bias = False),
-            nn.Sigmoid()
-        )
-
-        self.last_blocks = ResidualBlock(in_channels, out_channels)
-
-    def forward(self, x):
-        x = self.first_residual_blocks(x)
-        out_trunk = self.trunk_branches(x)
-        out_middle_2r_blocks = self.middle_2r_blocks(x)
-        #
-        out_conv1_1_blocks = self.conv1_1_blocks(out_middle_2r_blocks)
-        out = (1 + out_conv1_1_blocks) * out_trunk
-        out_last = self.last_blocks(out)
-
-        return out_last

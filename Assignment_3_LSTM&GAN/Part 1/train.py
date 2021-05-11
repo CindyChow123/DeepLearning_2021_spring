@@ -73,6 +73,7 @@ def train_with_model(config,model):
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.RMSprop(model.parameters(), lr=config.learning_rate, alpha=0.99, eps=1e-08, weight_decay=0,
                                     momentum=0, centered=False)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.8)
 
     with tqdm(total=config.batch_size * config.train_steps) as pbar:
         x_lst = []
@@ -91,6 +92,7 @@ def train_with_model(config,model):
             optimizer.step()
             accuracy = get_correct(predicts, batch_targets) / config.batch_size
             pbar.update(config.batch_size)
+            scheduler.step()
 
             if step % 10 == 0:
                 # print acuracy/loss here

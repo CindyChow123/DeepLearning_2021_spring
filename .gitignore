@@ -1,6 +1,8 @@
 Src_checking.py
 *.pdf
 .idea
+*.xml
+*.iml
 11812031_assignment1.zip
 MRI_classification
 Assignment_2_CNN&RNN/Part 1/mlp_numpy.py
@@ -8,5 +10,9 @@ Assignment_2_CNN&RNN/Part 1/modules.py
 Assignment_2_CNN&RNN/Part 1/train_mlp_numpy.py
 Assignment_2_CNN&RNN/Part 1/pytorch_train_mlp0.py
 Assignment_2_CNN&RNN/data
+Assignment_3_LSTM&GAN/Part 2/data
+Assignment_3_LSTM&GAN/Part 2/datasets/data
+Assignment_3_LSTM&GAN/Part 2/images
 project/dataloaders/*.npy
 project/run
+project/Model
