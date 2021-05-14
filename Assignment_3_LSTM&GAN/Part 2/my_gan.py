@@ -48,22 +48,6 @@ class Generator(nn.Module):
         ))
         # 1 *28 28
 
-        # Construct generator. You should experiment with your model,
-        # but the following is a good start:
-        #   Linear args.latent_dim -> 128
-        #   LeakyReLU(0.2)
-        #   Linear 128 -> 256
-        #   Bnorm
-        #   LeakyReLU(0.2)
-        #   Linear 256 -> 512
-        #   Bnorm
-        #   LeakyReLU(0.2)
-        #   Linear 512 -> 1024
-        #   Bnorm
-        #   LeakyReLU(0.2)
-        #   Linear 1024 -> 768
-        #   Output non-linearity
-
     def forward(self, z):
         # Generate images from z
         z = self.__getattr__('conv1')(z)
@@ -94,15 +78,6 @@ class Discriminator(nn.Module):
             nn.Conv2d(self.fm*2, 1, 7, 1, 0, bias=False),
             nn.Sigmoid()
         ))
-
-        # Construct distriminator. You should experiment with your model,
-        # but the following is a good start:
-        #   Linear 784 -> 512
-        #   LeakyReLU(0.2)
-        #   Linear 512 -> 256
-        #   LeakyReLU(0.2)
-        #   Linear 256 -> 1
-        #   Output non-linearity
 
     def forward(self, img):
         # return discriminator score for img
@@ -178,7 +153,7 @@ def main(args):
 
     # load data
     dataloader = torch.utils.data.DataLoader(
-        datasets.MNIST('./data/mnist', train=True, download=False,
+        datasets.MNIST('./data/mnist', train=True, download=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                            transforms.Normalize((0.5,),

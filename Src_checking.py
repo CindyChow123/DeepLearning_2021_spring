@@ -34,9 +34,6 @@ if __name__ == '__main__':
     # print('test_rl: dout',dout_rl)
     # dout_li = test_linear(dout_rl)
     # print('test_li: dout',dout_li)
-    a=[1,8,7,9,1,9,5]
-    b=[6,3,1,8,2,3,6]
-    plt.scatter(a,b)
-    plt.plot()
-    plt.show()
+    a=[[2,1],[4,3]]
+    print(a[:,0])
 
