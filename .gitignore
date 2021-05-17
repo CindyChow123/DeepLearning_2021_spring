@@ -16,6 +16,12 @@ Assignment_3_LSTM&GAN/Part 1/train_E.py
 Assignment_3_LSTM&GAN/Part 2/data
 Assignment_3_LSTM&GAN/Part 2/datasets/data
 Assignment_3_LSTM&GAN/Part 2/images
+face_interpolation/data/img_align_celeba
+face_interpolation/data/identity_CelebA.txt
+face_interpolation/face_generator.pt
+face_interpolation/face_generator1.pt
+face_interpolation/face_dis1.pt
+face_interpolation/face_dis.pt
 project/dataloaders/*.npy
 project/run
 project/Model
